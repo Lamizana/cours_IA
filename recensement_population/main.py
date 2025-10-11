@@ -11,7 +11,6 @@ def main() -> int:
 
     LOG.info("Démarrage de l’application...")
 
-
     LOG.info("Fin de l’exécution.")
     LOG.separator()
     return 0

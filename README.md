@@ -1,13 +1,42 @@
-# cours_IA
+# 🧠 cours_IA
 
-Miser en place de différentes IA en application avec Scikit-learn.
+Mise en place de différentes applications d’**intelligence artificielle** avec **Scikit-learn**.
 
-## Setup et installation
+---
 
+## 📚 Sommaire
 
-## TODO avec Pycharm
+- [Setup et installation](#setup-et-installation)
+- [Utilisation (déroulable)](#utilisation-déroulable)
+  - [TODO avec PyCharm](#todo-avec-pycharm)
+  - [Journalisation (Logging)](#journalisation-logging)
 
-### ✅ 1. Ecrire une TODO dans le code
+---
+
+## ⚙️ Setup et installation
+
+```bash
+# Cloner le projet
+git clone https://github.com/ton-utilisateur/cours_IA.git
+cd cours_IA
+
+# Créer et activer un environnement virtuel (optionnel)
+python -m venv .venv
+source .venv/bin/activate  # ou .venv\Scripts\activate sous Windows
+
+# Installer les dépendances
+pip install -r requirements.txt
+```
+
+----
+
+## Utilisations
+
+<details> <summary><strong>🧩 Cliquer pour dérouler la section d'utilisation</strong></summary>
+
+### TODO avec Pycharm
+
+#### ✅ 1. Ecrire une TODO dans le code
 
 Il faut simplement ajouter un _comentaire spécial_ dans le code :
 
@@ -25,7 +54,7 @@ Il y a plusieurs variantes :
 # HACK: solution rapide, à améliorer plus tard
 ```
 
-### 🧭 Voir toutes les TODO dans Pycharm
+#### 2. 🧭 Voir toutes les TODO dans Pycharm
 
 1. Ouvrir le projet.
 2. Va dans menu :
@@ -38,7 +67,7 @@ Il y a plusieurs variantes :
 > 💡 Cliquer sur une ligne pour aller directement au code.
 
 
-### 3. Ajouter tes propres filtres TODO
+#### 3. Ajouter tes propres filtres TODO
 
 On a défini des **règles personalisées** (par exemple `@urgent`, `@review`, etc.) :
 
@@ -54,14 +83,14 @@ Les TODO seront ensuite colorées à la vue dédiée.
 
 Tu verras ensuite ces TODO colorés différemment dans la vue dédiée.
 
-## 🧾 Journalisation (Logging)
+### 🧾 Journalisation (Logging)
 
 Le projet utilise un système de journalisation centralisé basé sur un module `logger.py`, 
 afin d’enregistrer les messages d’exécution et les erreurs dans un fichier de log.
 
 ---- 
 
-### 📁 Structure du fichier
+#### 📁 Structure du fichier
 
 Le logger est défini dans :
 
@@ -73,14 +102,14 @@ cours_IA/
     └── ...
 ```
 
-### ⚙ Fonctionnement
+#### ⚙ Fonctionnement
 
 Le fichier `logger.py` contient une classe `Logger` personnalisée, qui :
 
 - Enregistre les messages dans un fichier (ex. `recensement_pop.log`) ;
 - Affiche aussi les messages dans la console pour le suivi en temps réel.
 
-### 🧩 Exemple d’utilisation
+#### 🧩 Exemple d’utilisation
 
 ```python
 # main.py
