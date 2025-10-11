@@ -1,7 +1,7 @@
 import sys
 from logger import Logger
 
-LOG = Logger("recensement_pop.log")
+LOG = Logger("recensement_pop")
 #####################################################################
 
 
@@ -9,8 +9,10 @@ LOG = Logger("recensement_pop.log")
 def main() -> int:
     # TODO: Mettre en place une IA avec scikit.
 
-    LOG.info("COUCOU")
+    LOG.info("Démarrage de l’application...")
 
+
+    LOG.info("Fin de l’exécution.")
     LOG.separator()
     return 0
 

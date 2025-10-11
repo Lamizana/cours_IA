@@ -49,7 +49,7 @@ class ColorFormatter(logging.Formatter):
 
 
 class Logger:
-    def __init__(self, log_file="app.LOG"):
+    def __init__(self, log_file="app.log"):
         log_dir = os.path.dirname(log_file)
         if log_dir:
             os.makedirs(log_dir, exist_ok=True)
