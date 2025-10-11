@@ -21,14 +21,24 @@ git clone https://github.com/ton-utilisateur/cours_IA.git
 cd cours_IA
 
 # Créer et activer un environnement virtuel (optionnel)
-python -m venv .venv
-source .venv/bin/activate  # ou .venv\Scripts\activate sous Windows
+python3 -m venv .env 
+source .env/bin/activate  # ou .venv\Scripts\activate sous Windows
 
 # Installer les dépendances
 pip install -r requirements.txt
 ```
 
-----
+Exécuter proprement ton script comme un module
+
+Depuis la racine de du projet (projets_IA/), exécuter :
+
+```python
+python -m recensement_population.main
+```
+
+
+
+---
 
 ## Utilisations
 
@@ -66,7 +76,6 @@ Il y a plusieurs variantes :
 
 > 💡 Cliquer sur une ligne pour aller directement au code.
 
-
 #### 3. Ajouter tes propres filtres TODO
 
 On a défini des **règles personalisées** (par exemple `@urgent`, `@review`, etc.) :
@@ -88,7 +97,7 @@ Tu verras ensuite ces TODO colorés différemment dans la vue dédiée.
 Le projet utilise un système de journalisation centralisé basé sur un module `logger.py`, 
 afin d’enregistrer les messages d’exécution et les erreurs dans un fichier de log.
 
----- 
+--- 
 
 #### 📁 Structure du fichier
 

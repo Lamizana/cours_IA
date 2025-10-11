@@ -1,6 +1,7 @@
 
 import os
 import logging
+from pathlib import Path
 from logging.handlers import RotatingFileHandler
 
 # Codes ANSI pour les couleurs console
@@ -50,10 +51,16 @@ class ColorFormatter(logging.Formatter):
 
 class Logger:
     def __init__(self, log_file="app.log"):
-        log_dir = os.path.dirname(log_file)
-        if log_dir:
-            os.makedirs(log_dir, exist_ok=True)
+        # === AJOUT : dossier logs à la racine ===
+        base_dir = Path.cwd()
+        logs_dir = base_dir / "logs"
+        logs_dir.mkdir(parents=True, exist_ok=True)
 
+        # === Chemin complet du fichier log ===
+        log_path = logs_dir / log_file
+        log_file = str(log_path)
+        
+        # === Initialisation du logger ===
         self.logger = logging.getLogger("AppLogger")
         self.logger.setLevel(logging.INFO)
         self.logger.propagate = False

@@ -1,7 +1,7 @@
 import sys
 from logger import Logger
 
-LOG = Logger("recensement_pop")
+LOG = Logger("recensement_pop.log")
 #####################################################################
 
 
