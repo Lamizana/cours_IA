@@ -1,8 +1,11 @@
 import re
 import sys
 import pandas as pd
+import geopandas as gpd
 from logger import Logger
-
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+import seaborn as sns
 LOG = Logger("recensement_pop.log")
 
 
@@ -75,6 +78,80 @@ def recup_is_null(df: pd.DataFrame):
 
     print(f"✅ {len(df_null)} lignes contenant au moins une valeur nulle ont été extraites dans 'deces-2025-m08_nulls.csv'")
 
+
+# ---------------------------------------------------------------- #
+def carte_deces(df):
+    import geopandas as gpd
+    import matplotlib.pyplot as plt
+
+    france = gpd.read_file("https://france-geojson.gregoiredavid.fr/repo/departements.geojson")
+
+    df["departement"] = df["lieu_deces_code"].str[:2]
+    deces_par_dep = df.groupby("departement").size().reset_index(name="nb_deces")
+    deces_par_dep.rename(columns={"departement": "code"}, inplace=True)
+
+    france_deces = france.merge(deces_par_dep, on="code", how="left")
+    france_deces["nb_deces"] = france_deces["nb_deces"].fillna(0)
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    france_deces.plot(column="nb_deces", cmap="Reds", linewidth=0.5, edgecolor="black", legend=True, ax=ax)
+    plt.title("Nombre de décès par département", fontsize=14)
+    plt.axis("off")
+    plt.savefig("Carte.png")
+    
+    
+# ---------------------------------------------------------------- #
+def carte_deces_stylisee(df, output_file="carte_deces_france_stylisee.png"):
+
+
+    # Charger la carte de la France (départements)
+    france = gpd.read_file("https://france-geojson.gregoiredavid.fr/repo/departements.geojson")
+
+    # Extraire le département à partir du code INSEE
+    df["departement"] = df["lieu_deces_code"].str[:2]
+    deces_par_dep = df.groupby("departement").size().reset_index(name="nb_deces")
+    deces_par_dep.rename(columns={"departement": "code"}, inplace=True)
+
+    # Fusionner carte + données
+    france_deces = france.merge(deces_par_dep, on="code", how="left")
+    france_deces["nb_deces"] = france_deces["nb_deces"].fillna(0)
+
+    # Palette douce et moderne
+    cmap = sns.color_palette("Reds", as_cmap=True)
+
+    # Création de la figure
+    fig, ax = plt.subplots(figsize=(12, 12), facecolor="#f8f9fa")
+    france_deces.plot(
+        column="nb_deces",
+        cmap=cmap,
+        linewidth=0.6,
+        edgecolor="#333333",
+        legend=True,
+        legend_kwds={
+            "label": "Nombre de décès (Août 2025)",
+            "orientation": "vertical",
+            "pad": 0.02,
+            "shrink": 0.6
+        },
+        ax=ax
+    )
+
+    # Ajout d’un fond et d’un titre
+    ax.set_title(
+        "Répartition des décès en France par département — Août 2025",
+        fontsize=16,
+        fontweight="bold",
+        pad=20,
+        color="#212529"
+    )
+
+
+    # Sauvegarder la carte
+    plt.savefig(output_file, dpi=300, facecolor="#f8f9fa")
+    plt.close(fig)
+
+    print(f"✅ Carte stylisée enregistrée sous : {output_file}")
+
     
 # ---------------------------------------------------------------- #
 def main() -> int:
@@ -89,6 +166,9 @@ def main() -> int:
         add_age_to_death(df)
         # recup_is_null(df)
         # df.to_csv("deces-2025-m08.csv", index=False, encoding="utf-8")
+        
+        # carte_deces(df)
+        # carte_deces_stylisee(df)
         
         
         
