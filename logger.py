@@ -22,31 +22,40 @@ EMOJIS = {
 }
 
 class ColorFormatter(logging.Formatter):
-    """Formatter console avec couleurs sélectives."""
+    """Formatter console avec couleurs + infos de contexte (fichier, fonction, ligne)."""
     def format(self, record):
-        # Emoji + format de base selon le niveau
-        if record.levelname in ["ERROR", "WARNING"]:
-            log_fmt = f"{EMOJIS.get(record.levelname,'')} [%(levelname)s] - %(message)s"
-        elif record.levelname == "CRITICAL":
-            log_fmt = f"{EMOJIS.get('CRITICAL')} [%(levelname)s] - %(message)s"
-        else:  # INFO
-            log_fmt = f"{EMOJIS.get('INFO')} [%(levelname)s] - %(message)s"
+        level = record.levelname
+        emoji = EMOJIS.get(level, "")
+        color = COLORS.get(level, "")
+        reset = COLORS["RESET"]
 
+        # === Format différent selon le niveau ===
+        if level == "INFO":
+            # Format simple (sans fichier/ligne)
+            log_fmt = f"{emoji} [%(levelname)s] - %(message)s"
+        elif level in ["WARNING", "ERROR", "CRITICAL"]:
+            # Format détaillé avec fichier, fonction et ligne
+            log_fmt = (
+                f"{emoji} [%(levelname)s] "
+                f"[%(filename)s: %(funcName)s(%(lineno)d)] - %(message)s"
+            )
+        else:
+            log_fmt = f"[%(levelname)s] - %(message)s"
+
+        # Appliquer le format
         formatter = logging.Formatter(log_fmt)
         log_msg = formatter.format(record)
 
-        # Appliquer la couleur uniquement sur le tag [INFO]
-        if record.levelname == "INFO":
-            # On colore seulement la partie "[INFO]".
+        # === Coloration du texte ===
+        if level == "INFO":
+            # Colorer uniquement le tag [INFO]
             log_msg = log_msg.replace("[INFO]", f"{COLORS['INFO']}[INFO]{COLORS['RESET']}")
-
-        elif record.levelname in ["WARNING", "ERROR", "CRITICAL"]:
-            # Pour les autres niveaux : couleur sur toute la ligne comme avant
-            color = COLORS.get(record.levelname, "")
-            reset = COLORS["RESET"]
+        elif level in ["WARNING", "ERROR", "CRITICAL"]:
+            # Colorer toute la ligne
             log_msg = f"{color}{log_msg}{reset}"
 
         return log_msg
+
 
 
 class Logger:
@@ -72,13 +81,13 @@ class Logger:
 
         # Formatter fichier pour INFO & CRITICAL (sans fichier/ligne)
         file_formatter_simple = logging.Formatter(
-            "%(asctime)s [%(levelname)s] [%(funcName)s():%(lineno)d] - %(message)s",
+            "%(asctime)s [%(levelname)s] [%(funcName)s(%(lineno)d)] - %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S"
         )
 
         # Formatter fichier pour WARNING & ERROR (avec fichier/ligne)
         file_formatter_full = logging.Formatter(
-            "%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)d in %(funcName)s()] - %(message)s",
+            "%(asctime)s [%(levelname)s] [%(filename)s in %(funcName)s(%(lineno)d)] - %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S"
         )
 

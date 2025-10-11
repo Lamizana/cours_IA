@@ -36,8 +36,6 @@ Depuis la racine de du projet (projets_IA/), exécuter :
 python -m recensement_population.main
 ```
 
-
-
 ---
 
 ## Utilisations
