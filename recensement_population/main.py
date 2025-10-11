@@ -7,6 +7,8 @@ LOG = Logger("recensement_pop.log")
 
 # ---------------------------------------------------------------- #
 def main() -> int:
+    # TODO: Mettre en place une IA avec scikit.
+
     LOG.info("COUCOU")
 
     LOG.separator()
